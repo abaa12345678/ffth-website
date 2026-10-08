@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laporan Jaringan FTTH</title>
+<style>
+*{box-sizing:border-box}
+:root{
+ --primary:#0d5cab;--primary2:#0b3d78;--bg:#f4f7fb;--card:#fff;
+ --text:#182230;--muted:#667085;--border:#dfe5ec;--danger:#d92d20;
+ --success:#16803c;--shadow:0 6px 22px rgba(16,40,75,.08)
+}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:linear-gradient(135deg,var(--primary2),var(--primary));color:#fff;padding:24px}
+.header-inner{max-width:1400px;margin:auto;display:flex;align-items:center;gap:15px}
+.logo{width:48px;height:48px;border-radius:12px;background:#ffffff22;display:grid;place-items:center;font-size:25px}
+h1{margin:0;font-size:24px} header p{margin:4px 0 0;opacity:.9}
+.container{max-width:1400px;margin:24px auto;padding:0 20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:18px;box-shadow:var(--shadow)}
+h2{margin:0;color:#164b82;font-size:18px}.subtitle,.note{color:var(--muted);font-size:12px;margin-top:5px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.field label{display:block;font-size:12px;font-weight:700;color:#475467;margin-bottom:6px}
+input,select{width:100%;padding:11px;border:1px solid #cfd7e2;border-radius:8px;font-size:14px;background:#fff}
+input:focus,select:focus{outline:0;border-color:#4b91d1;box-shadow:0 0 0 3px #0d5cab18}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+button{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer}
+.btn-primary{background:var(--primary);color:#fff}.btn-green{background:var(--success);color:#fff}
+.btn-gray{background:#edf1f5;color:#344054}.btn-red{background:var(--danger);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:18px}
+.stat{background:#fff;border:1px solid var(--border);border-radius:12px;padding:15px;box-shadow:var(--shadow)}
+.stat small{color:var(--muted)}.stat b{display:block;font-size:22px;color:#164b82;margin-top:6px}
+.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:9px}
+table{width:100%;border-collapse:collapse;min-width:950px}
+th,td{padding:10px;border-bottom:1px solid var(--border);font-size:12px;text-align:left}
+th{background:#eef4fa;color:#214b75;text-transform:uppercase}
+.search{max-width:330px}
+.report-section{margin-top:22px}
+.report-title{text-align:center;margin:12px 0 8px;font-size:15px;font-weight:800;color:#173f72}
+.report-info{width:100%;border-collapse:collapse;margin-bottom:15px;min-width:0}
+.report-info td{border:1px solid #bbb;padding:7px;font-size:11px}
+.report-info td:first-child{width:180px;font-weight:700;background:#f1f1f1}
+.rab-total{text-align:right;font-weight:800;font-size:13px;margin-top:8px}
+.signature{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:45px;text-align:center}
+.signature div{min-height:90px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.grid,.stats{grid-template-columns:1fr}.section-head{align-items:flex-start;flex-direction:column}}
+@media print{
+ @page{size:A4 landscape;margin:10mm}
+ body{background:#fff;font-size:10px}
+ header{background:#fff;color:#111;padding:5px 0;border-bottom:2px solid #111}
+ header .logo{display:none} header h1{font-size:18px} header p{color:#444;font-size:10px}
+ .container{max-width:none;margin:0;padding:0}
+ .no-print{display:none!important}
+ .card{box-shadow:none;border:0;padding:3px 0;margin:0 0 8px}
+ .report-section{break-inside:avoid;page-break-inside:avoid}
+ .report-title{font-size:13px}
+ .report-info td,th,td{font-size:8px;padding:4px}
+ table{min-width:0}
+ .signature{margin-top:25px}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="header-inner">
+  <div class="logo">🌐</div>
+  <div>
+   <h1>LAPORAN JARINGAN FTTH</h1>
+   <p>JEAQUELINE ABAA</p>
+  </div>
+ </div>
+</header>
+
+<div class="container">
+
+<!-- IDENTITAS -->
+<div class="card no-print">
+ <div class="section-head">
+  <div><h2>Identitas Pekerjaan</h2><div class="subtitle">Informasi utama yang akan tampil pada laporan cetak/PDF.</div></div>
+ </div>
+ <div class="grid">
+  <div class="field"><label>Nama Pembuat</label><input id="pembuat" placeholder="Nama pembuat laporan"></div>
+  <div class="field"><label>Tanggal Pekerjaan</label><input id="tanggal" type="date"></div>
+  <div class="field"><label>Lokasi Pekerjaan</label><input id="lokasiPekerjaan" placeholder="Contoh: Kota Sorong"></div>
+  <div class="field"><label>Nama Proyek</label><input id="namaProyek" placeholder="Contoh: Pembangunan Jaringan FTTH"></div>
+  <div class="field"><label>Nomor Laporan</label><input id="nomorLaporan" placeholder="Contoh: FTTH-001"></div>
+  <div class="field"><label>Penanggung Jawab</label><input id="penanggungJawab" placeholder="Nama penanggung jawab"></div>
+ </div>
+ <div class="actions">
+  <button class="btn-primary" onclick="simpanIdentitas()">💾 Simpan Identitas</button>
+ </div>
+</div>
+
+<!-- FORM DATA -->
+<div class="card no-print">
+ <div class="section-head">
+  <div><h2>Tambah Data Jaringan</h2><div class="subtitle">Masukkan ODC, ODP, tiang, kabel, atau rumah/pelanggan.</div></div>
+ </div>
+ <div class="grid">
+  <div class="field"><label>Jenis Data</label>
+   <select id="jenis"><option>Tiang</option><option>ODC</option><option>ODP</option><option>Rumah</option><option>Kabel</option></select>
+  </div>
+  <div class="field"><label>Kode / Nama</label><input id="kode" placeholder="Contoh: TIANG 1 / KU.1"></div>
+  <div class="field"><label>Jenis Kabel</label>
+   <select id="jenisKabel"><option>--</option><option>Feeder</option><option>Distribusi</option><option>Drop Cable</option><option>KU</option><option>FO</option></select>
+  </div>
+  <div class="field"><label>Panjang Kabel (meter)</label><input id="panjang" type="number" step="0.01" placeholder="Contoh: 36.10"></div>
+  <div class="field"><label>Dari Titik</label><input id="dari" placeholder="Contoh: ODC 1"></div>
+  <div class="field"><label>Ke Titik</label><input id="ke" placeholder="Contoh: ODP 1"></div>
+  <div class="field"><label>Nomor Tiang</label><input id="tiang" placeholder="Contoh: TIANG 1"></div>
+  <div class="field"><label>ODC</label><input id="odc" placeholder="Contoh: ODC 1"></div>
+  <div class="field"><label>ODP</label><input id="odp" placeholder="Contoh: ODP 1"></div>
+  <div class="field"><label>Lokasi Kabel</label><input id="lokasi" placeholder="Contoh: Jalan utama"></div>
+  <div class="field"><label>Keterangan</label><input id="keterangan" placeholder="Keterangan tambahan"></div>
+ </div>
+ <div class="actions">
+  <button class="btn-primary" onclick="tambahData()">+ Tambah Data</button>
+  <button class="btn-gray" onclick="resetForm()">Reset</button>
+ </div>
+</div>
+
+<!-- STATISTIK -->
+<div class="stats no-print">
+ <div class="stat"><small>Total Data</small><b id="totalData">0</b></div>
+ <div class="stat"><small>Total ODC</small><b id="totalODC">0</b></div>
+ <div class="stat"><small>Total ODP</small><b id="totalODP">0</b></div>
+ <div class="stat"><small>Total Tiang</small><b id="totalTiang">0</b></div>
+ <div class="stat"><small>Total Kabel</small><b id="totalKabel">0</b></div>
+ <div class="stat"><small>Total Panjang</small><b id="totalMeter">0 m</b></div>
+</div>
+
+<!-- TABEL UTAMA -->
+<div class="card no-print">
+ <div class="section-head">
+  <div><h2>Data Jaringan</h2><div class="subtitle">Data tersimpan otomatis di browser.</div></div>
+  <input class="search" id="cari" oninput="render()" placeholder="🔎 Cari data...">
+ </div>
+ <div class="table-wrap">
+  <table>
+   <thead><tr>
+    <th>No</th><th>Jenis</th><th>Kode/Nama</th><th>Kabel</th><th>Panjang</th>
+    <th>Dari</th><th>Ke</th><th>Tiang</th><th>ODC</th><th>ODP</th><th>Lokasi</th><th>Keterangan</th><th>Aksi</th>
+   </tr></thead>
+   <tbody id="tbody"></tbody>
+  </table>
+ </div>
+</div>
+
+<!-- RAB FORM -->
+<div class="card no-print">
+ <div class="section-head">
+  <div><h2>Anggaran Biaya / RAB</h2><div class="subtitle">Tambahkan material atau pekerjaan beserta harga satuannya.</div></div>
+ </div>
+ <div class="grid">
+  <div class="field"><label>Nama Barang / Pekerjaan</label><input id="rabNama" placeholder="Contoh: Kabel FO"></div>
+  <div class="field"><label>Spesifikasi</label><input id="rabSpesifikasi" placeholder="Contoh: 12 Core"></div>
+  <div class="field"><label>Jumlah</label><input id="rabJumlah" type="number" step="0.01" placeholder="1"></div>
+  <div class="field"><label>Satuan</label><input id="rabSatuan" placeholder="meter / unit / pekerjaan"></div>
+  <div class="field"><label>Harga Satuan (Rp)</label><input id="rabHarga" type="number" step="1" placeholder="0"></div>
+  <div class="field"><label>Keterangan</label><input id="rabKet" placeholder="Keterangan"></div>
+ </div>
+ <div class="actions">
+  <button class="btn-primary" onclick="tambahRAB()">+ Tambah RAB</button>
+  <button class="btn-gray" onclick="resetRAB()">Reset</button>
+ </div>
+</div>
+
+<div class="card no-print">
+ <h2>Daftar Anggaran</h2>
+ <div class="table-wrap" style="margin-top:14px">
+  <table>
+   <thead><tr><th>No</th><th>Barang/Pekerjaan</th><th>Spesifikasi</th><th>Jumlah</th><th>Satuan</th><th>Harga Satuan</th><th>Jumlah Harga</th><th>Keterangan</th><th>Aksi</th></tr></thead>
+   <tbody id="rabBody"></tbody>
+  </table>
+ </div>
+ <div class="rab-total">Total Anggaran: <span id="totalRAB">Rp 0</span></div>
+</div>
+
+<!-- LAPORAN CETAK -->
+<div class="card" id="printReport">
+ <div class="report-section">
+  <div class="report-title">IDENTITAS PEKERJAAN</div>
+  <table class="report-info">
+   <tr><td>Nama Pembuat</td><td id="rPembuat">-</td><td>Nomor Laporan</td><td id="rNomor">-</td></tr>
+   <tr><td>Tanggal Pekerjaan</td><td id="rTanggal">-</td><td>Nama Proyek</td><td id="rProyek">-</td></tr>
+   <tr><td>Lokasi Pekerjaan</td><td id="rLokasi">-</td><td>Penanggung Jawab</td><td id="rPenanggung">-</td></tr>
+  </table>
+ </div>
+
+ <div class="report-section">
+  <div class="report-title">A. DATA ODC</div>
+  <div class="table-wrap"><table><thead><tr><th>No</th><th>Kode ODC</th><th>Lokasi</th><th>Keterangan</th></tr></thead><tbody id="reportODC"></tbody></table></div>
+ </div>
+
+ <div class="report-section">
+  <div class="report-title">B. DATA ODP</div>
+  <div class="table-wrap"><table><thead><tr><th>No</th><th>Kode ODP</th><th>ODC</th><th>Lokasi</th><th>Keterangan</th></tr></thead><tbody id="reportODP"></tbody></table></div>
+ </div>
+
+ <div class="report-section">
+  <div class="report-title">C. DATA TIANG</div>
+  <div class="table-wrap"><table><thead><tr><th>No</th><th>Kode Tiang</th><th>ODC</th><th>ODP</th><th>Lokasi</th><th>Keterangan</th></tr></thead><tbody id="reportTiang"></tbody></table></div>
+ </div>
+
+ <div class="report-section">
+  <div class="report-title">D. DATA KABEL</div>
+  <div class="table-wrap"><table><thead><tr><th>No</th><th>Kode</th><th>Jenis Kabel</th><th>Panjang (m)</th><th>Dari</th><th>Ke</th><th>Tiang</th><th>ODC</th><th>ODP</th><th>Lokasi</th><th>Keterangan</th></tr></thead><tbody id="reportKabel"></tbody></table></div>
+ </div>
+
+ <div class="report-section">
+  <div class="report-title">E. DATA RUMAH / PELANGGAN</div>
+  <div class="table-wrap"><table><thead><tr><th>No</th><th>Kode/Nama</th><th>ODP</th><th>Lokasi</th><th>Keterangan</th></tr></thead><tbody id="reportRumah"></tbody></table></div>
+ </div>
+
+ <div class="report-section">
+  <div class="report-title">F. REKAPITULASI JARINGAN</div>
+  <table class="report-info">
+   <tr><td>Total ODC</td><td id="rrODC">0</td><td>Total ODP</td><td id="rrODP">0</td></tr>
+   <tr><td>Total Tiang</td><td id="rrTiang">0</td><td>Total Kabel</td><td id="rrKabel">0</td></tr>
+   <tr><td>Total Rumah/Pelanggan</td><td id="rrRumah">0</td><td>Total Panjang Kabel</td><td id="rrMeter">0 m</td></tr>
+  </table>
+ </div>
+
+ <div class="report-section">
+  <div class="report-title">G. ANGGARAN BIAYA</div>
+  <div class="table-wrap"><table><thead><tr><th>No</th><th>Barang/Pekerjaan</th><th>Spesifikasi</th><th>Jumlah</th><th>Satuan</th><th>Harga Satuan</th><th>Jumlah Harga</th><th>Keterangan</th></tr></thead><tbody id="reportRAB"></tbody></table></div>
+  <div class="rab-total">TOTAL ANGGARAN: <span id="reportTotalRAB">Rp 0</span></div>
+ </div>
+
+ <div class="signature">
+  <div>Mengetahui,<br><br><br><b id="sigPenanggung">________________________</b><br>Penanggung Jawab</div>
+  <div><span id="sigLokasi">Kota Sorong</span>, <span id="sigTanggal">________________</span><br><br><br><b id="sigPembuat">________________________</b><br>Pembuat Laporan</div>
+ </div>
+</div>
+
+<div class="card no-print">
+ <div class="actions">
+  <button class="btn-green" onclick="window.print()">🖨 Cetak / Simpan PDF</button>
+  <button class="btn-red" onclick="hapusSemua()">Hapus Semua Data</button>
+  <button class="btn-red" onclick="hapusRAB()">Hapus Semua RAB</button>
+ </div>
+ <p class="note">Untuk PDF: klik Cetak / Simpan PDF → pilih <b>Save as PDF</b>.</p>
+</div>
+
+</div>
+
+<script>
+const dataAwal=[
+ {jenis:"ODC",kode:"ODC 1",jenisKabel:"--",panjang:"",dari:"",ke:"",tiang:"",odc:"ODC 1",odp:"",lokasi:"",keterangan:""},
+ {jenis:"ODP",kode:"ODP 1",jenisKabel:"--",panjang:"",dari:"",ke:"",tiang:"",odc:"ODC 1",odp:"ODP 1",lokasi:"",keterangan:""},
+ {jenis:"ODP",kode:"ODP 2",jenisKabel:"--",panjang:"",dari:"",ke:"",tiang:"",odc:"ODC 1",odp:"ODP 2",lokasi:"",keterangan:""},
+ {jenis:"ODP",kode:"ODP 3",jenisKabel:"--",panjang:"",dari:"",ke:"",tiang:"",odc:"ODC 1",odp:"ODP 3",lokasi:"",keterangan:""},
+ {jenis:"ODP",kode:"ODP 4",jenisKabel:"--",panjang:"",dari:"",ke:"",tiang:"",odc:"ODC 1",odp:"ODP 4",lokasi:"",keterangan:""},
+ {jenis:"ODP",kode:"ODP 5",jenisKabel:"--",panjang:"",dari:"",ke:"",tiang:"",odc:"ODC 1",odp:"ODP 5",lokasi:"",keterangan:""},
+ ...Array.from({length:6},(_,i)=>({jenis:"Tiang",kode:"TIANG "+(i+1),jenisKabel:"--",panjang:"",dari:"",ke:"",tiang:"TIANG "+(i+1),odc:"",odp:"",lokasi:"",keterangan:""})),
+ ...[
+ ["KU.1","8.61"],["KU.2","36.10"],["KU.3","44.00"],["KU.4","25.30"],["KU.5","42.80"],
+ ["KU.6","36.00"],["KU.7","15.50"],["KU.8","44.20"],["KU.9","32.60"]
+ ].map(x=>({jenis:"Kabel",kode:x[0],jenisKabel:"KU",panjang:x[1],dari:"",ke:"",tiang:"",odc:"",odp:"",lokasi:"",keterangan:""}))
+];
+
+let data=JSON.parse(localStorage.getItem("ftthDataV2")||"null");
+if(!data){data=dataAwal;saveData()}
+let rab=JSON.parse(localStorage.getItem("ftthRABV2")||"[]");
+let identitas=JSON.parse(localStorage.getItem("ftthIdentitasV2")||"{}");
+
+function saveData(){localStorage.setItem("ftthDataV2",JSON.stringify(data))}
+function saveRAB(){localStorage.setItem("ftthRABV2",JSON.stringify(rab))}
+function saveIdentitas(){localStorage.setItem("ftthIdentitasV2",JSON.stringify(identitas))}
+function v(id){return document.getElementById(id).value.trim()}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function rupiah(n){return new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(Number(n)||0)}
+function tanggalIndo(s){
+ if(!s)return "-"; const d=new Date(s+"T00:00:00");
+ return d.toLocaleDateString("id-ID",{day:"2-digit",month:"long",year:"numeric"})
+}
+function isiFormIdentitas(){
+ document.getElementById("pembuat").value=identitas.pembuat||"";
+ document.getElementById("tanggal").value=identitas.tanggal||"";
+ document.getElementById("lokasiPekerjaan").value=identitas.lokasi||"";
+ document.getElementById("namaProyek").value=identitas.proyek||"";
+ document.getElementById("nomorLaporan").value=identitas.nomor||"";
+ document.getElementById("penanggungJawab").value=identitas.penanggung||"";
+ updateReportIdentity()
+}
+function simpanIdentitas(){
+ identitas={pembuat:v("pembuat"),tanggal:v("tanggal"),lokasi:v("lokasiPekerjaan"),proyek:v("namaProyek"),nomor:v("nomorLaporan"),penanggung:v("penanggungJawab")};
+ saveIdentitas();updateReportIdentity();alert("Identitas pekerjaan berhasil disimpan.")
+}
+function updateReportIdentity(){
+ document.getElementById("rPembuat").textContent=identitas.pembuat||"-";
+ document.getElementById("rTanggal").textContent=tanggalIndo(identitas.tanggal);
+ document.getElementById("rLokasi").textContent=identitas.lokasi||"-";
+ document.getElementById("rProyek").textContent=identitas.proyek||"-";
+ document.getElementById("rNomor").textContent=identitas.nomor||"-";
+ document.getElementById("rPenanggung").textContent=identitas.penanggung||"-";
+ document.getElementById("sigPenanggung").textContent=identitas.penanggung||"________________________";
+ document.getElementById("sigPembuat").textContent=identitas.pembuat||"________________________";
+ document.getElementById("sigLokasi").textContent=identitas.lokasi||"Kota Sorong";
+ document.getElementById("sigTanggal").textContent=tanggalIndo(identitas.tanggal);
+}
+function resetForm(){
+ ["kode","panjang","dari","ke","tiang","odc","odp","lokasi","keterangan"].forEach(id=>document.getElementById(id).value="");
+ document.getElementById("jenisKabel").value="--";
+}
+function tambahData(){
+ const item={jenis:v("jenis"),kode:v("kode"),jenisKabel:v("jenisKabel"),panjang:v("panjang"),dari:v("dari"),ke:v("ke"),tiang:v("tiang"),odc:v("odc"),odp:v("odp"),lokasi:v("lokasi"),keterangan:v("keterangan")};
+ if(!item.kode){alert("Kode / Nama harus diisi.");return}
+ data.push(item);saveData();resetForm();render()
+}
+function editData(i){
+ const x=data[i];
+ document.getElementById("jenis").value=x.jenis;
+ document.getElementById("kode").value=x.kode;
+ document.getElementById("jenisKabel").value=x.jenisKabel||"--";
+ document.getElementById("panjang").value=x.panjang||"";
+ document.getElementById("dari").value=x.dari||"";
+ document.getElementById("ke").value=x.ke||"";
+ document.getElementById("tiang").value=x.tiang||"";
+ document.getElementById("odc").value=x.odc||"";
+ document.getElementById("odp").value=x.odp||"";
+ document.getElementById("lokasi").value=x.lokasi||"";
+ document.getElementById("keterangan").value=x.keterangan||"";
+ data.splice(i,1);saveData();render();scrollTo({top:0,behavior:"smooth"})
+}
+function hapus(i){if(confirm("Hapus data ini?")){data.splice(i,1);saveData();render()}}
+function hapusSemua(){if(confirm("Semua data jaringan akan dihapus?")){data=[];saveData();render()}}
+function render(){
+ const q=v("cari").toLowerCase();
+ const rows=data.map((x,i)=>({x,i})).filter(o=>Object.values(o.x).join(" ").toLowerCase().includes(q));
+ document.getElementById("tbody").innerHTML=rows.map((o,n)=>`<tr>
+ <td>${n+1}</td><td>${esc(o.x.jenis)}</td><td><b>${esc(o.x.kode)}</b></td><td>${esc(o.x.jenisKabel)}</td>
+ <td>${esc(o.x.panjang)}</td><td>${esc(o.x.dari)}</td><td>${esc(o.x.ke)}</td><td>${esc(o.x.tiang)}</td>
+ <td>${esc(o.x.odc)}</td><td>${esc(o.x.odp)}</td><td>${esc(o.x.lokasi)}</td><td>${esc(o.x.keterangan)}</td>
+ <td><button class="btn-primary" onclick="editData(${o.i})">Edit</button> <button class="btn-red" onclick="hapus(${o.i})">Hapus</button></td>
+ </tr>`).join("");
+ document.getElementById("totalData").textContent=data.length;
+ document.getElementById("totalODC").textContent=data.filter(x=>x.jenis==="ODC").length;
+ document.getElementById("totalODP").textContent=data.filter(x=>x.jenis==="ODP").length;
+ document.getElementById("totalTiang").textContent=data.filter(x=>x.jenis==="Tiang").length;
+ document.getElementById("totalKabel").textContent=data.filter(x=>x.jenis==="Kabel").length;
+ const meter=data.reduce((s,x)=>s+(parseFloat(x.panjang)||0),0);
+ document.getElementById("totalMeter").textContent=meter.toFixed(2)+" m";
+ renderReports()
+}
+function rowsFor(type){return data.filter(x=>x.jenis===type)}
+function emptyRow(cols,msg="Tidak ada data"){return `<tr><td colspan="${cols}" style="text-align:center">${msg}</td></tr>`}
+function renderReports(){
+ const odc=rowsFor("ODC"),odp=rowsFor("ODP"),tiang=rowsFor("Tiang"),kabel=rowsFor("Kabel"),rumah=rowsFor("Rumah");
+ document.getElementById("reportODC").innerHTML=odc.length?odc.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.kode)}</td><td>${esc(x.lokasi)}</td><td>${esc(x.keterangan)}</td></tr>`).join(""):emptyRow(4);
+ document.getElementById("reportODP").innerHTML=odp.length?odp.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.kode)}</td><td>${esc(x.odc)}</td><td>${esc(x.lokasi)}</td><td>${esc(x.keterangan)}</td></tr>`).join(""):emptyRow(5);
+ document.getElementById("reportTiang").innerHTML=tiang.length?tiang.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.kode)}</td><td>${esc(x.odc)}</td><td>${esc(x.odp)}</td><td>${esc(x.lokasi)}</td><td>${esc(x.keterangan)}</td></tr>`).join(""):emptyRow(6);
+ document.getElementById("reportKabel").innerHTML=kabel.length?kabel.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.kode)}</td><td>${esc(x.jenisKabel)}</td><td>${esc(x.panjang)}</td><td>${esc(x.dari)}</td><td>${esc(x.ke)}</td><td>${esc(x.tiang)}</td><td>${esc(x.odc)}</td><td>${esc(x.odp)}</td><td>${esc(x.lokasi)}</td><td>${esc(x.keterangan)}</td></tr>`).join(""):emptyRow(11);
+ document.getElementById("reportRumah").innerHTML=rumah.length?rumah.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(x.kode)}</td><td>${esc(x.odp)}</td><td>${esc(x.lokasi)}</td><td>${esc(x.keterangan)}</td></tr>`).join(""):emptyRow(5);
+ document.getElementById("rrODC").textContent=odc.length;
+ document.getElementById("rrODP").textContent=odp.length;
+ document.getElementById("rrTiang").textContent=tiang.length;
+ document.getElementById("rrKabel").textContent=kabel.length;
+ document.getElementById("rrRumah").textContent=rumah.length;
+ document.getElementById("rrMeter").textContent=data.reduce((s,x)=>s+(parseFloat(x.panjang)||0),0).toFixed(2)+" m";
+ renderRABReport()
+}
+function resetRAB(){["rabNama","rabSpesifikasi","rabJumlah","rabSatuan","rabHarga","rabKet"].forEach(id=>document.getElementById(id).value="")}
+function tambahRAB(){
+ const x={nama:v("rabNama"),spesifikasi:v("rabSpesifikasi"),jumlah:parseFloat(v("rabJumlah"))||0,satuan:v("rabSatuan"),harga:parseFloat(v("rabHarga"))||0,ket:v("rabKet")};
+ if(!x.nama){alert("Nama barang / pekerjaan harus diisi.");return}
+ rab.push(x);saveRAB();resetRAB();renderRAB()
+}
+function hapusRABItem(i){if(confirm("Hapus item RAB ini?")){rab.splice(i,1);saveRAB();renderRAB()}}
+function hapusRAB(){if(confirm("Semua data RAB akan dihapus?")){rab=[];saveRAB();renderRAB()}}
+function renderRAB(){
+ document.getElementById("rabBody").innerHTML=rab.length?rab.map((x,i)=>`<tr>
+ <td>${i+1}</td><td>${esc(x.nama)}</td><td>${esc(x.spesifikasi)}</td><td>${x.jumlah}</td><td>${esc(x.satuan)}</td>
+ <td>${rupiah(x.harga)}</td><td>${rupiah(x.jumlah*x.harga)}</td><td>${esc(x.ket)}</td>
+ <td><button class="btn-red" onclick="hapusRABItem(${i})">Hapus</button></td></tr>`).join(""):emptyRow(9);
+ const total=rab.reduce((s,x)=>s+(x.jumlah*x.harga),0);
+ document.getElementById("totalRAB").textContent=rupiah(total);
+ renderRABReport()
+}
+function renderRABReport(){
+ document.getElementById("reportRAB").innerHTML=rab.length?rab.map((x,i)=>`<tr>
+ <td>${i+1}</td><td>${esc(x.nama)}</td><td>${esc(x.spesifikasi)}</td><td>${x.jumlah}</td><td>${esc(x.satuan)}</td>
+ <td>${rupiah(x.harga)}</td><td>${rupiah(x.jumlah*x.harga)}</td><td>${esc(x.ket)}</td></tr>`).join(""):emptyRow(8);
+ const total=rab.reduce((s,x)=>s+(x.jumlah*x.harga),0);
+ document.getElementById("reportTotalRAB").textContent=rupiah(total)
+}
+isiFormIdentitas();render();renderRAB();
+</script>
+</body>
+</html>'''
+
+path = Path("/mnt/data/index.html")
+path.write_text(html, encoding="utf-8")
+print(f"File berhasil dibuat: {path}")
